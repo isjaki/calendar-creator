@@ -1,0 +1,111 @@
+* {
+    box-sizing: border-box;
+}
+  
+body {
+    font-family: 'Titillium Web', sans-serif;
+}
+  
+table {
+    border-collapse: collapse;
+    border-bottom: 2px solid #3f58fc;
+    margin: 5px 5px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+tr:nth-child(2n + 1) {
+    background-color: #dee2e8;
+}
+  
+td, th {
+    padding: 5px 9px;
+    text-align: center;
+}
+  
+th {
+    font-weight: bold;
+    background-color: #3f58fc;
+    color: #fff;
+}
+
+caption {
+    font-weight: bold;
+}
+  
+#form {
+    width: 30%;
+    float: left;
+    font-size: 20px;
+    padding-top: 20px;
+}
+  
+#calendar {
+    width: 70%;
+    float: right;
+    padding-top: 23px;
+    text-align: center;
+}
+  
+input {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: none;
+    outline: none;
+    background-color: #eaecef;
+    border-radius: 3px;
+    box-shadow: inset 0 0 7px #c1d4f2;
+    transition: background-color 0.5s, box-shadow 0.5s;
+}
+  
+input:focus {
+    background-color: #dee2e8;
+    box-shadow: inset 0 0 10px #c1d4f2;
+}
+  
+button {
+    padding: 10px 20px 10px 20px;
+    margin-bottom: 10px;
+    font-size: 17px;
+    font-family: 'Titillium Web', sans-serif;
+    background-color: #3f58fc;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    color: #fff;
+    transition: background-color 0.5s;
+}
+  
+button:active {
+    box-shadow: none;
+    padding: 9px 19px 9px 19px;
+    box-shadow: inset 0 0 8px #000;
+}
+  
+button:hover {
+    background-color: #233ce0;
+}
+
+@media screen and (max-width: 1065px) {
+    #calendar {
+        text-align: center;
+        width: 70%;
+    }
+
+    #form {
+        width: 30%;
+    }
+}
+  
+@media screen and (max-width: 557px) {
+    #calendar {
+      float: none;
+      width: 100%;
+      text-align: center;
+    } 
+    #form {
+      float: none;
+      width: 60%;
+      margin: 0 auto;
+    }
+}

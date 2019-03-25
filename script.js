@@ -1,34 +1,34 @@
-let buttonCreate = document.getElementById('button-create');
-let buttonDelete = document.getElementById('button-delete');
+const buttonCreate = document.getElementById('button-create');
+const buttonDelete = document.getElementById('button-delete');
 
 buttonCreate.addEventListener('click', createCalendar);
 buttonDelete.addEventListener('click', deleteCalendar);
 
 function createCalendar() {
 
-    let year = document.getElementById('getYear').value;
-    let month = document.getElementById('getMonth').value;
+    const year = document.getElementById('getYear').value;
+    const month = document.getElementById('getMonth').value;
    
     // create elements for a table
-    let element = document.getElementById('calendar');
-    let table = document.createElement('table');
-    let tBody = document.createElement('tbody');
-    let tHead = document.createElement('tr');
+    const calendarsContainer = document.getElementById('calendar');
+    const table = document.createElement('table');
+    const tBody = document.createElement('tbody');
+    const tHead = document.createElement('tr');
     let tr;
 
-    let caption = document.createElement('caption');
+    const caption = document.createElement('caption');
 
-    let date = new Date(year, month - 1);
+    const date = new Date(year, month - 1);
 
-    let captionMonth = date.toLocaleString('en', {month: 'long'});
-    caption.innerHTML = `${captionMonth}, ${year}`;
+    const monthLongFormat = date.toLocaleString('en', {month: 'long'});
+    caption.innerHTML = `${monthLongFormat}, ${year}`;
     
     table.appendChild(caption);
     table.appendChild(tBody);
   
     // Create a table head. First, create an array with weekday names and then 
     // insert them into 'th' elements using the for loop.
-    let week = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const week = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
   
     for (let i = 0; i < week.length; i++) {
       let th = document.createElement('th');

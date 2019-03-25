@@ -11,8 +11,8 @@ Calendar.prototype._createCalendarTemplate = function() {
     var calendarTable = document.createElement('table');
     var tableBody = document.createElement('tbody');
 
-    tableBody.appendChild(this._createCalendarHeader);
-    calendarTable.appendChild(this._createCalendarCaption);
+    tableBody.appendChild(this._createCalendarHeader());
+    calendarTable.appendChild(this._createCalendarCaption());
     calendarTable.appendChild(tableBody);
 
     return calendarTable;
@@ -56,7 +56,7 @@ Calendar.prototype._getNumberOfRows = function() {
     // The amount of rows needed for the calendar table equals the number of empty cells before
     // the first day of month plus the number of days in this month divided by the number of weekdays
     var numberOfRows = Math.ceil(
-        this._getFirstWeekdayOfMonth() + this._getNumberOfDaysInMonth() / DAYS_OF_WEEK.length
+        (this._getFirstWeekdayOfMonth() + this._getNumberOfDaysInMonth()) / DAYS_OF_WEEK.length
     );
 
     return numberOfRows;
@@ -68,7 +68,7 @@ Calendar.prototype._fillCalendarWithRows = function(calendarTemplate) {
     for (var i = 0; i < numberOfRows; i++) {
         var calendarRow = document.createElement('tr');
 
-        for (var j = 0; i < DAYS_OF_WEEK.length; j++) {
+        for (var j = 0; j < DAYS_OF_WEEK.length; j++) {
             var weekdayCell = document.createElement('td');
             calendarRow.appendChild(weekdayCell);
         }
@@ -79,13 +79,14 @@ Calendar.prototype._fillCalendarWithRows = function(calendarTemplate) {
 
 Calendar.prototype._fillCalendarWithDays = function(calendarTable) {
     var firstWeekdayOfMonth = this._getFirstWeekdayOfMonth();
+    var numberOfDaysInMonth = this._getNumberOfDaysInMonth();
     var weekdayCells = calendarTable.getElementsByTagName('td');
     var currentDayNumber = 1;
 
     for (var i = firstWeekdayOfMonth; i <= weekdayCells.length; i++) {
         weekdayCells[i].innerHTML = currentDayNumber;
         currentDayNumber++;
-        if (currentDayNumber > this._getNumberOfDaysInMonth()) break;
+        if (currentDayNumber > numberOfDaysInMonth) break;
     }
 }
 
@@ -112,8 +113,9 @@ document.getElementById('button-create').onclick = function() {
 
 document.getElementById('button-delete').onclick = function() {
     var container = document.getElementById('calendars');
+    numberOfCalendars = container.children.length;
 
-    for (var i = 0; i < container.children.length; i++) {
+    for (var i = numberOfCalendars - 1; i >= 0; i--) {
         container.removeChild(container.children[i]);
     }
 }

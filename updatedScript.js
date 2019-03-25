@@ -7,18 +7,30 @@ function Calendar(options) {
 }
 
 Calendar.prototype._createCalendarTemplate = function() {
-    const calendarTable = document.createElement('table');
-    const tableBody = document.createElement('tbody');
+    var calendarTable = document.createElement('table');
+    var tableBody = document.createElement('tbody');
 
 
 }
 
 Calendar.prototype._createCalendarCaption = function() {
-    const tableCaption = document.createElement('caption');
+    var tableCaption = document.createElement('caption');
 
+    var monthLongFormat = this._enteredDate.toLocaleString('en', { month: 'long' });
 
+    tableCaption.innerHTML = monthLongFormat + ', ' + this._year;
+
+    return tableCaption;
 }
 
 Calendar.prototype._createCalendarHeader = function() {
-    const tableHeader = document.createElement('tr');
+    var tableHeader = document.createElement('tr');
+
+    for (var i = 0; i < DAYS_OF_WEEK.length; i++) {
+        var weekDayCell = document.createElement('th');
+        weekDayCell.innerHTML = DAYS_OF_WEEK[i];
+        tableHeader.appendChild(weekDayCell);
+    }
+
+    return tableHeader;
 }

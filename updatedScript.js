@@ -89,6 +89,23 @@ Calendar.prototype._fillCalendarWithDays = function(calendarTable) {
     }
 }
 
+Calendar.prototype.render = function() {
+    var calendar = this._createCalendarTemplate();
+
+    this._fillCalendarWithRows(calendar);
+    this._fillCalendarWithDays(calendar);
+
+    this._calendarContainer.appendChild(calendar);
+}
+
+// document.getElementById('button-create')
+
+// Calendar.prototype.deleteCalendars = function() {
+//     for (var i = 0; i < this._calendarContainer.children.length; i++) {
+//         this._calendarContainer.removeChild(this._calendarContainer.children[i]);
+//     }
+// }
+
 
 
 

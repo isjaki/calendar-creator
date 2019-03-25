@@ -70,7 +70,7 @@ function createCalendar() {
       if (dayNumber > numberOfDaysInMonth) break;
     }
   
-    element.appendChild(table);
+    calendarsContainer.appendChild(table);
 }
   
 function deleteCalendar() {

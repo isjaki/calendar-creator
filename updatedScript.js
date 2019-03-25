@@ -46,21 +46,23 @@ Calendar.prototype._getFirstWeekdayOfMonth = function() {
     return weekday === 0 ? 6 : weekday - 1;
 }
 
-Calendar.prototype._getNumberOfRows = function() {
+Calendar.prototype._getNumberOfDaysInMonth = function() {
     // The day with the given value of 0 gives the last day of the previous month.
-    var numberOfDaysInMonth = new Date(this._year, this._month + 1, 0).getDate();
-    var firstDayOfMonth = this._getFirstWeekdayOfMonth();
+    return new Date(this._year, this._month + 1, 0).getDate();
+}
 
-    // The amount of rows needed for the calendar table equals the number of empty cells before the first day of month 
-    // plus the number of days in this month divided by the number of weekdays
-    var numberOfRows = Math.ceil((firstDayOfMonth + numberOfDaysInMonth) / DAYS_OF_WEEK.length);
+Calendar.prototype._getNumberOfRows = function() {
+    // The amount of rows needed for the calendar table equals the number of empty cells before
+    // the first day of month plus the number of days in this month divided by the number of weekdays
+    var numberOfRows = Math.ceil(
+        this._getFirstWeekdayOfMonth() + this._getNumberOfDaysInMonth() / DAYS_OF_WEEK.length
+    );
 
     return numberOfRows;
 }
 
-Calendar.prototype._fillCalendarWithRows = function() {
+Calendar.prototype._fillCalendarWithRows = function(calendarTemplate) {
     var numberOfRows = this._getNumberOfRows();
-    var calendarTable = this._createCalendarTemplate();
 
     for (var i = 0; i < numberOfRows; i++) {
         var calendarRow = document.createElement('tr');
@@ -70,8 +72,22 @@ Calendar.prototype._fillCalendarWithRows = function() {
             calendarRow.appendChild(weekdayCell);
         }
 
-        calendarTable.lastChild.appendChild(calendarRow);
+        calendarTemplate.lastChild.appendChild(calendarRow);
     }
 }
+
+Calendar.prototype._fillCalendarWithDays = function(calendarTable) {
+    var firstWeekdayOfMonth = this._getFirstWeekdayOfMonth();
+    var weekdayCells = calendarTable.getElementsByTagName('td');
+    var currentDayNumber = 1;
+
+    for (var i = firstWeekdayOfMonth; i <= weekdayCells.length; i++) {
+        weekdayCells[i].innerHTML = currentDayNumber;
+        currentDayNumber++;
+        if (currentDayNumber > this._getNumberOfDaysInMonth()) break;
+    }
+}
+
+
 
 

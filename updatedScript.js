@@ -3,6 +3,7 @@ var DAYS_OF_WEEK = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 function Calendar(options) {
     this._year = options.year || new Date().getFullYear();
     this._month = options.month - 1 || new Date().getMonth();
+    this._calendarContainer = options.container;
     this._enteredDate = new Date(this._year, this._month);
 }
 

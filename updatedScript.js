@@ -30,9 +30,9 @@ Calendar.prototype._createCalendarHeader = function() {
     var tableHeader = document.createElement('tr');
 
     for (var i = 0; i < DAYS_OF_WEEK.length; i++) {
-        var weekDayCell = document.createElement('th');
-        weekDayCell.innerHTML = DAYS_OF_WEEK[i];
-        tableHeader.appendChild(weekDayCell);
+        var weekdayNameCell = document.createElement('th');
+        weekdayNameCell.innerHTML = DAYS_OF_WEEK[i];
+        tableHeader.appendChild(weekdayNameCell);
     }
 
     return tableHeader;
@@ -56,6 +56,22 @@ Calendar.prototype._getNumberOfRows = function() {
     var numberOfRows = Math.ceil((firstDayOfMonth + numberOfDaysInMonth) / DAYS_OF_WEEK.length);
 
     return numberOfRows;
+}
+
+Calendar.prototype._fillCalendarWithRows = function() {
+    var numberOfRows = this._getNumberOfRows();
+    var calendarTable = this._createCalendarTemplate();
+
+    for (var i = 0; i < numberOfRows; i++) {
+        var calendarRow = document.createElement('tr');
+
+        for (var j = 0; i < DAYS_OF_WEEK.length; j++) {
+            var weekdayCell = document.createElement('td');
+            calendarRow.appendChild(weekdayCell);
+        }
+
+        calendarTable.lastChild.appendChild(calendarRow);
+    }
 }
 
 

@@ -19,7 +19,6 @@ Calendar.prototype._createCalendarTemplate = function() {
 
 Calendar.prototype._createCalendarCaption = function() {
     var tableCaption = document.createElement('caption');
-
     var monthLongFormat = this._enteredDate.toLocaleString('en', { month: 'long' });
 
     tableCaption.innerHTML = monthLongFormat + ', ' + this._year;
@@ -46,3 +45,17 @@ Calendar.prototype._getFirstWeekdayOfMonth = function() {
     // become one number lower respectively
     return weekday === 0 ? 6 : weekday - 1;
 }
+
+Calendar.prototype._getNumberOfRows = function() {
+    // The day with the given value of 0 gives the last day of the previous month.
+    var numberOfDaysInMonth = new Date(this._year, this._month + 1, 0).getDate();
+    var firstDayOfMonth = this._getFirstWeekdayOfMonth();
+
+    // The amount of rows needed for the calendar table equals the number of empty cells before the first day of month 
+    // plus the number of days in this month divided by the number of weekdays
+    var numberOfRows = Math.ceil((firstDayOfMonth + numberOfDaysInMonth) / DAYS_OF_WEEK.length);
+
+    return numberOfRows;
+}
+
+

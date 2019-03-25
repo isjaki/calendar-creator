@@ -10,7 +10,7 @@ function createCalendar() {
     const month = document.getElementById('getMonth').value;
    
     // create elements for a table
-    const calendarsContainer = document.getElementById('calendar');
+    const calendarsContainer = document.getElementById('calendars');
     const table = document.createElement('table');
     const tBody = document.createElement('tbody');
     const tHead = document.createElement('tr');
@@ -74,7 +74,7 @@ function createCalendar() {
 }
   
 function deleteCalendar() {
-    let element = document.getElementById('calendar');
+    let element = document.getElementById('calendars');
 
     for (let i = element.children.length - 1; i >= 0; i--) {
       element.removeChild(element.children[i]);

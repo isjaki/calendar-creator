@@ -3,7 +3,7 @@ var DAYS_OF_WEEK = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 function Calendar(options) {
     this._year = options.year || new Date().getFullYear();
     this._month = options.month - 1 || new Date().getMonth();
-    this._calendarContainer = options.container;
+    container = options.container;
     this._enteredDate = new Date(this._year, this._month);
 }
 
@@ -95,16 +95,28 @@ Calendar.prototype.render = function() {
     this._fillCalendarWithRows(calendar);
     this._fillCalendarWithDays(calendar);
 
-    this._calendarContainer.appendChild(calendar);
+    container.appendChild(calendar);
 }
 
-// document.getElementById('button-create')
+document.getElementById('button-create').onclick = function() {
+    var options = {
+        year: document.getElementById('getYear').value,
+        month: document.getElementById('getMonth').value,
+        container: document.getElementById('calendars')
+    };
 
-// Calendar.prototype.deleteCalendars = function() {
-//     for (var i = 0; i < this._calendarContainer.children.length; i++) {
-//         this._calendarContainer.removeChild(this._calendarContainer.children[i]);
-//     }
-// }
+    var calendar = new Calendar(options);
+
+    calendar.render();
+}
+
+document.getElementById('button-delete').onclick = function() {
+    var container = document.getElementById('calendars');
+
+    for (var i = 0; i < container.children.length; i++) {
+        container.removeChild(container.children[i]);
+    }
+}
 
 
 

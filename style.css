@@ -40,7 +40,7 @@ caption {
     padding-top: 20px;
 }
   
-#calendar {
+#calendars {
     width: 70%;
     float: right;
     padding-top: 23px;
@@ -87,7 +87,7 @@ button:hover {
 }
 
 @media screen and (max-width: 1065px) {
-    #calendar {
+    #calendars {
         text-align: center;
         width: 70%;
     }
@@ -98,7 +98,7 @@ button:hover {
 }
   
 @media screen and (max-width: 557px) {
-    #calendar {
+    #calendars {
       float: none;
       width: 100%;
       text-align: center;

@@ -10,7 +10,11 @@ Calendar.prototype._createCalendarTemplate = function() {
     var calendarTable = document.createElement('table');
     var tableBody = document.createElement('tbody');
 
+    tableBody.appendChild(this._createCalendarHeader);
+    calendarTable.appendChild(this._createCalendarCaption);
+    calendarTable.appendChild(tableBody);
 
+    return calendarTable;
 }
 
 Calendar.prototype._createCalendarCaption = function() {
@@ -33,4 +37,12 @@ Calendar.prototype._createCalendarHeader = function() {
     }
 
     return tableHeader;
+}
+
+Calendar.prototype._getFirstWeekdayOfMonth = function() {
+    var weekday = this._enteredDate.getDay();
+
+    // changing sunday from 0 to 6, the other weekdays 
+    // become one number lower respectively
+    return weekday === 0 ? 6 : weekday - 1;
 }

@@ -3,7 +3,7 @@ var DAYS_OF_WEEK = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 function Calendar(options) {
     this._year = options.year;
     this._month = options.month - 1;
-    container = options.container;
+    this._container = options.container;
     this._enteredDate = new Date(this._year, this._month);
 }
 
@@ -96,7 +96,7 @@ Calendar.prototype.render = function() {
     this._fillCalendarWithRows(calendar);
     this._fillCalendarWithDays(calendar);
 
-    container.appendChild(calendar);
+    this._container.appendChild(calendar);
 }
 
 var deleteButton = document.getElementById('button-delete');

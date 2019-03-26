@@ -1,8 +1,8 @@
 var DAYS_OF_WEEK = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
 function Calendar(options) {
-    this._year = options.year || new Date().getFullYear();
-    this._month = options.month - 1 || new Date().getMonth();
+    this._year = options.year;
+    this._month = options.month - 1;
     container = options.container;
     this._enteredDate = new Date(this._year, this._month);
 }
@@ -103,9 +103,20 @@ var deleteButton = document.getElementById('button-delete');
 var createButton = document.getElementById('button-create');
 
 createButton.addEventListener('click', function() {
+    var enteredYear = document.getElementById('getYear').value;
+    var enteredMonth = document.getElementById('getMonth').value;
+
+    if (enteredYear === '') {
+        enteredYear = new Date().getFullYear();
+    }
+
+    if (enteredMonth === '') {
+        enteredMonth = new Date().getMonth() + 1;
+    }
+
     var options = {
-            year: document.getElementById('getYear').value,
-            month: document.getElementById('getMonth').value,
+            year: enteredYear,
+            month: enteredMonth,
             container: document.getElementById('calendars')
         };
 

@@ -1,86 +1,138 @@
-const buttonCreate = document.getElementById('button-create');
-const buttonDelete = document.getElementById('button-delete');
+var DAYS_OF_WEEK = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
-buttonCreate.addEventListener('click', createCalendar);
-buttonDelete.addEventListener('click', deleteCalendar);
+function Calendar(options) {
+    this._year = options.year;
+    this._month = options.month - 1;
+    container = options.container;
+    this._enteredDate = new Date(this._year, this._month);
+}
 
-function createCalendar() {
+Calendar.prototype._createCalendarTemplate = function() {
+    var calendarTable = document.createElement('table');
+    var tableBody = document.createElement('tbody');
 
-    const year = document.getElementById('getYear').value;
-    const month = document.getElementById('getMonth').value;
-   
-    // create elements for a table
-    const calendarsContainer = document.getElementById('calendars');
-    const table = document.createElement('table');
-    const tBody = document.createElement('tbody');
-    const tHead = document.createElement('tr');
-    let tr;
+    tableBody.appendChild(this._createCalendarHeader());
+    calendarTable.appendChild(this._createCalendarCaption());
+    calendarTable.appendChild(tableBody);
 
-    const caption = document.createElement('caption');
+    return calendarTable;
+}
 
-    const date = new Date(year, month - 1);
+Calendar.prototype._createCalendarCaption = function() {
+    var tableCaption = document.createElement('caption');
+    var monthLongFormat = this._enteredDate.toLocaleString('en', { month: 'long' });
 
-    const monthLongFormat = date.toLocaleString('en', {month: 'long'});
-    caption.innerHTML = `${monthLongFormat}, ${year}`;
-    
-    table.appendChild(caption);
-    table.appendChild(tBody);
-  
-    // Create a table head. First, create an array with weekday names and then 
-    // insert them into 'th' elements using the for loop.
-    const week = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-  
-    for (let i = 0; i < week.length; i++) {
-      let th = document.createElement('th');
-      th.innerHTML = week[i];
-      tHead.appendChild(th); // insert every th element into a table head
+    tableCaption.innerHTML = monthLongFormat + ', ' + this._year;
+
+    return tableCaption;
+}
+
+Calendar.prototype._createCalendarHeader = function() {
+    var tableHeader = document.createElement('tr');
+
+    for (var i = 0; i < DAYS_OF_WEEK.length; i++) {
+        var weekdayNameCell = document.createElement('th');
+        weekdayNameCell.innerHTML = DAYS_OF_WEEK[i];
+        tableHeader.appendChild(weekdayNameCell);
     }
-  
-    table.lastChild.appendChild(tHead);
-  
+
+    return tableHeader;
+}
+
+Calendar.prototype._getFirstWeekdayOfMonth = function() {
+    var weekday = this._enteredDate.getDay();
+
+    // changing sunday from 0 to 6, the other weekdays 
+    // become one number lower respectively
+    return weekday === 0 ? 6 : weekday - 1;
+}
+
+Calendar.prototype._getNumberOfDaysInMonth = function() {
     // The day with the given value of 0 gives the last day of the previous month.
-    let numberOfDaysInMonth = new Date(year, month, 0).getDate();
-              
-    // Let sunday be the last day of week with the given index of 6. 
-    let firstDay = (date.getDay() == 0) ? 6 : date.getDay() - 1;
-    
-    // The amount of rows needed for the table equals the number of empty cells before the first day of month 
-    // plus the number of days in this month divided by the number of weekdays
-    let numberOfRows = Math.ceil((firstDay + numberOfDaysInMonth) / week.length);
-              
-    for (let i = 0; i < numberOfRows; i++) {
-  
-      tr = document.createElement('tr');
-  
-      for (let j = 0; j < week.length; j++) {
-         let td = document.createElement('td');
-         tr.appendChild(td);
-      }
-  
-      table.lastChild.appendChild(tr);
-    };
-  
-    let calendarCells = table.getElementsByTagName('td');
-  
-    let dayNumber = 1;
-  
-    for (let i = firstDay; i <= calendarCells.length; i++) {
-      calendarCells[i].innerHTML = dayNumber;
-      dayNumber++;
-      if (dayNumber > numberOfDaysInMonth) break;
-    }
-  
-    calendarsContainer.appendChild(table);
+    return new Date(this._year, this._month + 1, 0).getDate();
 }
-  
-function deleteCalendar() {
-    let element = document.getElementById('calendars');
 
-    for (let i = element.children.length - 1; i >= 0; i--) {
-      element.removeChild(element.children[i]);
+Calendar.prototype._getNumberOfRows = function() {
+    // The amount of rows needed for the calendar table equals the number of empty cells before
+    // the first day of month plus the number of days in this month divided by the number of weekdays
+    var numberOfRows = Math.ceil(
+        (this._getFirstWeekdayOfMonth() + this._getNumberOfDaysInMonth()) / DAYS_OF_WEEK.length
+    );
+
+    return numberOfRows;
+}
+
+Calendar.prototype._fillCalendarWithRows = function(calendarTemplate) {
+    var numberOfRows = this._getNumberOfRows();
+
+    for (var i = 0; i < numberOfRows; i++) {
+        var calendarRow = document.createElement('tr');
+
+        for (var j = 0; j < DAYS_OF_WEEK.length; j++) {
+            var weekdayCell = document.createElement('td');
+            calendarRow.appendChild(weekdayCell);
+        }
+
+        calendarTemplate.lastChild.appendChild(calendarRow);
     }
 }
 
-document.getElementById('button-create')
+Calendar.prototype._fillCalendarWithDays = function(calendarTable) {
+    var firstWeekdayOfMonth = this._getFirstWeekdayOfMonth();
+    var numberOfDaysInMonth = this._getNumberOfDaysInMonth();
+    var weekdayCells = calendarTable.getElementsByTagName('td');
+    var currentDayNumber = 1;
 
-  
+    for (var i = firstWeekdayOfMonth; i <= weekdayCells.length; i++) {
+        weekdayCells[i].innerHTML = currentDayNumber;
+        currentDayNumber++;
+        if (currentDayNumber > numberOfDaysInMonth) break;
+    }
+}
+
+Calendar.prototype.render = function() {
+    var calendar = this._createCalendarTemplate();
+
+    this._fillCalendarWithRows(calendar);
+    this._fillCalendarWithDays(calendar);
+
+    container.appendChild(calendar);
+}
+
+var deleteButton = document.getElementById('button-delete');
+var createButton = document.getElementById('button-create');
+
+createButton.addEventListener('click', function() {
+    var enteredYear = document.getElementById('getYear').value;
+    var enteredMonth = document.getElementById('getMonth').value;
+
+    if (enteredYear === '') {
+        enteredYear = new Date().getFullYear();
+    }
+
+    if (enteredMonth === '') {
+        enteredMonth = new Date().getMonth() + 1;
+    }
+
+    var options = {
+            year: enteredYear,
+            month: enteredMonth,
+            container: document.getElementById('calendars')
+        };
+
+    var calendar = new Calendar(options);
+
+    calendar.render();
+});
+
+deleteButton.addEventListener('click', function() {
+    var container = document.getElementById('calendars');
+    numberOfCalendars = container.children.length;
+
+    for (var i = numberOfCalendars - 1; i >= 0; i--) {
+        container.removeChild(container.children[i]);
+    }
+});
+
+
+

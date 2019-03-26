@@ -99,27 +99,29 @@ Calendar.prototype.render = function() {
     container.appendChild(calendar);
 }
 
-document.getElementById('button-create').onclick = function() {
+var deleteButton = document.getElementById('button-delete');
+var createButton = document.getElementById('button-create');
+
+createButton.addEventListener('click', function() {
     var options = {
-        year: document.getElementById('getYear').value,
-        month: document.getElementById('getMonth').value,
-        container: document.getElementById('calendars')
-    };
+            year: document.getElementById('getYear').value,
+            month: document.getElementById('getMonth').value,
+            container: document.getElementById('calendars')
+        };
 
     var calendar = new Calendar(options);
 
     calendar.render();
-}
+});
 
-document.getElementById('button-delete').onclick = function() {
+deleteButton.addEventListener('click', function() {
     var container = document.getElementById('calendars');
     numberOfCalendars = container.children.length;
 
     for (var i = numberOfCalendars - 1; i >= 0; i--) {
         container.removeChild(container.children[i]);
     }
-}
-
+});
 
 
 
